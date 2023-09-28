@@ -1,5 +1,5 @@
 import { Col, FormGroup, Row, Stack, Form, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CreatetableReactSelect from "react-select/creatable";
 import { NoteData, Tag } from "./App";
 import { FormEvent, useRef, useState } from "react";
@@ -15,6 +15,7 @@ export function NoteForm({ onSubmit, onAddTag, availableTags }: NoteFormProps) {
   const titleRef = useRef<HTMLInputElement>(null)
   const markdownRef = useRef<HTMLTextAreaElement>(null)
   const [selectedTags, setSelectedTags] = useState<Tag[]>([])
+  const navigate = useNavigate()
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault()
@@ -23,6 +24,8 @@ export function NoteForm({ onSubmit, onAddTag, availableTags }: NoteFormProps) {
       markdown: markdownRef.current!.value,
       tags: selectedTags
     })
+
+    navigate("..")
   }
 
   return (
@@ -66,10 +69,10 @@ export function NoteForm({ onSubmit, onAddTag, availableTags }: NoteFormProps) {
           <Form.Control required as="textarea" ref={markdownRef} rows={15}/>
         </FormGroup>
         <Stack direction="horizontal" gap={2} className="justify-content-end">
-          <Button type="submit" variant="primary">Save</Button>
           <Link to="..">
             <Button type="button" variant="outline-danger">Cancel</Button>
           </Link>
+          <Button type="submit" variant="primary">Save</Button>
         </Stack>
       </Stack>
     </Form>
